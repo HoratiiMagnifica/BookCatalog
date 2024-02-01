@@ -5,4 +5,5 @@
   RewriteEngine On
   RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
+
 3. Готово!
