@@ -10,7 +10,8 @@ export default {
             books: [],           // Список книг
             isAdmin: false,
             isCheckingAdminStatus: true,
-            loading: false,// значение по умолчанию
+            loading: false,
+            isAuthenticated: false,// значение по умолчанию
         };
     },
 
@@ -22,7 +23,7 @@ export default {
     computed: {
         filteredSections() {
             // Используем loading для отслеживания состояния загрузки
-            return this.loading ? [] : (this.isAdmin ? this.sections : this.sections.filter(section => section.visible));
+            return this.loading ? [] : (this.isAdmin && this.isAuthenticated ? this.sections : this.sections.filter(section => section.visible));
         }
     },
     methods: {
@@ -101,9 +102,11 @@ export default {
                     throw new Error('Не удалось получить информацию о пользователе');
                 }
                 const userData = await response.json();
-
+                console.log(userData)
                 // Предполагается, что в объекте userData есть поле is_admin
                 this.isAdmin = userData.is_admin === 1;
+                this.isAuthenticated = this.isAdmin
+                console.log(this.isAuthenticated)
             } catch (error) {
                 console.error('Ошибка при проверке статуса администратора:', error.message);
             } finally {
@@ -165,20 +168,20 @@ export default {
                 <div>
                     {{ section.title }} - {{ section.description }}
                 </div>
-                <button v-if="isAdmin && !isCheckingAdminStatus" @click="deleteSection(section.id)" class="btn btn-outline-danger">
+                <button v-if="isAdmin && !isCheckingAdminStatus && isAuthenticated" @click="deleteSection(section.id)" class="btn btn-outline-danger">
                     Удалить секцию
                 </button>
-                <button v-if="isAdmin && !isCheckingAdminStatus" @click="toggleVisibility(section.id)" class="btn btn-outline-secondary">
+                <button v-if="isAdmin && !isCheckingAdminStatus && isAuthenticated" @click="toggleVisibility(section.id)" class="btn btn-outline-secondary">
                     {{ (section && section.visible !== undefined) ? (section.visible ? 'Скрыть' : 'Отобразить') : '' }}
                 </button>
-                <router-link v-if="isAdmin && !isCheckingAdminStatus" :to="{ name: 'adminSectionUpdate', params: { id: section.id}}" class="btn btn-outline-primary">
+                <router-link v-if="isAdmin && !isCheckingAdminStatus && isAuthenticated" :to="{ name: 'adminSectionUpdate', params: { id: section.id}}" class="btn btn-outline-primary">
                     Редактировать
                 </router-link>
             </li>
         </ul>
         <p v-else>Loading...</p>
         <div>
-            <router-link v-if="isAdmin && !isCheckingAdminStatus" :to="{ name: 'adminSections' }">
+            <router-link v-if="isAdmin && !isCheckingAdminStatus && isAuthenticated" :to="{ name: 'adminSections' }">
                 <button class="btn btn-outline-primary">Add Section</button>
             </router-link>
         </div>

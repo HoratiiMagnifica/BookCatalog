@@ -18,6 +18,7 @@ export default {
             isCheckingAdminStatus: true,
             userId: null,
             uploaderId: null,
+            isAuthenticated: false,
         };
     },
     created() {
@@ -78,6 +79,8 @@ export default {
                 this.userId = userData.id;
                 // Предполагается, что в объекте userData есть поле is_admin
                 this.isAdmin = userData.is_admin === 1;
+                this.isAuthenticated = this.isAdmin;
+
             } catch (error) {
                 console.error('Ошибка при проверке статуса администратора:', error.message);
             } finally {
@@ -128,16 +131,16 @@ export default {
                 <p>{{ books.description }}</p>
                 <hr style="margin-top: auto">
             </div>
-            <router-link v-if="(isAdmin && !isCheckingAdminStatus) || (userId === uploaderId)"
+            <router-link v-if="(isAdmin && !isCheckingAdminStatus && this.isAuthenticated) || (userId === uploaderId)"
                          :to="{ name: 'BookUpdate', params: { id: books.id}}"
                          class="btn btn-outline-primary">
                 Редактировать
             </router-link>
-            <button v-if="isAdmin && !isCheckingAdminStatus" @click="deleteBook(books.id)"
+            <button v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" @click="deleteBook(books.id)"
                     class="btn btn-outline-danger">
                 Удалить
             </button>
-            <button v-if="isAdmin && !isCheckingAdminStatus" @click="toggleVisibility(books.id)"
+            <button v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" @click="toggleVisibility(books.id)"
                     class="btn btn-outline-secondary">
                 {{ (books && books.visible !== undefined) ? (books.visible ? 'Скрыть' : 'Отобразить') : '' }}
             </button>

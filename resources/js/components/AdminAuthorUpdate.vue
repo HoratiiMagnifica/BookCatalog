@@ -52,34 +52,31 @@ export default {
 </script>
 
 <template>
-    <div>
-
-        <div>
-            <label for="name">ФИО</label>
-            <input type="text" name="full_name" v-model="full_name" id="full_name" value="{{ author.full_name }}"  placeholder="Enter name">
+    <div class="container mt-4">
+        <div class="mb-3">
+            <label for="full_name" class="form-label">Full Name</label>
+            <input type="text" name="full_name" v-model="full_name" id="full_name" class="form-control" placeholder="Enter name">
+        </div>
+        <div class="mb-3">
+            <label for="birth_country" class="form-label">Birth Country</label>
+            <input type="text" name="birth_country" v-model="birth_country" id="birth_country" class="form-control" placeholder="Enter birth country">
+        </div>
+        <div class="mb-3">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea type="text" name="comment" v-model="comment" id="comment" class="form-control" placeholder="Enter comment">{{ author.comment }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="pictureUrl" class="form-label">Picture URL</label>
+            <input type="text" name="pictureUrl" v-model="pictureUrl" id="pictureUrl" class="form-control" placeholder="Enter picture URL">
         </div>
         <div>
-            <label for="name">Страна рождения</label>
-            <input type="text" name="birth_country" v-model="birth_country" id="birth_country"
-                      content="{{ author.birth_country }}" placeholder="Enter birth country">
-        </div>
-        <div>
-            <label for="name">comment</label>
-            <textarea type="text" name="comment" v-model="comment" id="comment" placeholder="Enter comment">{{ author.comment }}</textarea>
-        </div>
-        <div>
-            <label for="name">picture Url</label>
-            <input type="text" name="pictureUrl" v-model="pictureUrl" id="pictureUrl" value="{{ author.pictureUrl }}"  placeholder="Enter picture Url">
-        </div>
-        <div>
-            <button type="submit" @click.prevent="editAuthor(author.id)">
+            <button type="submit" @click.prevent="editAuthor(author.id)" class="btn btn-primary">
                 Edit
             </button>
         </div>
-
-
     </div>
 </template>
+
 
 <style scoped>
 

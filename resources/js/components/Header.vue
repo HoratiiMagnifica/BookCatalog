@@ -80,7 +80,7 @@ export default {
                     <router-link to="/" class="nav-link px-2 link-dark">Home</router-link>
                     <router-link to="/sections" class="nav-link px-2 link-dark">Sections</router-link>
                     <router-link to="/authors" class="nav-link px-2 link-dark">Authors</router-link>
-                    <router-link to="/book/create" class="nav-link px-2 link-dark">Add Book</router-link>
+                    <router-link v-if="isLoggedIn" to="/book/create" class="nav-link px-2 link-dark">Add Book</router-link>
 
 
                 </ul>
@@ -92,7 +92,7 @@ export default {
                 <button @click="searchBooks" class="btn btn-outline-primary col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3 mr-auto" >Search</button>
 
                 <div class="dropdown text-end">
-                    <button class="btn btn-outline-primary" @click.prevent="logout">Logout</button>
+                    <button v-if="isLoggedIn" class="btn btn-outline-primary" @click.prevent="logout">Logout</button>
                     <router-link v-if="!isLoggedIn" :to="{ name: 'login' }">
                         <button class="btn btn-outline-primary">Login</button>
                     </router-link>

@@ -62,16 +62,19 @@ export const router = VueRouter.createRouter({
             name: "adminSections",
             path: "/admin/sections",
             component: AdminSections,
+            meta: { isAdmin: true },
         },
         {
             name: "adminSectionUpdate",
             path: "/admin/sections/:id",
             component: AdminSectionEdit,
+            meta: { isAdmin: true },
         },
         {
             name: "AdminAuthorUpdate",
             path: "/admin/authors/:id",
             component: AdminAuthorUpdate,
+            meta: { isAdmin: true },
         },
         {
             path: '/book/:id/content',
@@ -92,6 +95,7 @@ export const router = VueRouter.createRouter({
             name: "CreateAuthor",
             path: "/admin/authors/create",
             component: CreateAuthor,
+            meta: { isAdmin: true },
         },
         {
             name: "Search",
@@ -101,27 +105,23 @@ export const router = VueRouter.createRouter({
     ]
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     const token = localStorage.getItem('x_xsrf_token');
+    const isAdmin = store.getters['auth/isAdmin'];
 
-    if (token) {
-        // Если пользователь авторизован, не пускать на страницы login и register
-        if (to.name === 'login' || to.name === 'register') {
-            return next({
-                name: 'home'
-            });
-        }
+    if (to.meta.isAdmin && !isAdmin) {
+        next({
+            name: 'home'
+        });
+    } else if (!to.meta.isAdmin && (to.name === 'CreateBook' || to.name === 'BookUpdate') && !token) {
+        // Если маршрут требует аутентификации, перенаправляйте на страницу входа
+        next({
+            name: 'login'
+        });
     } else {
-        // Если пользователь неавторизован, не пускать на страницу sections
-        if (to.name === 'sections') {
-            return next({
-                name: 'login'
-            });
-        }
+        // Перейдите к следующему хуку маршрута
+        next();
     }
-
-    // В остальных случаях продолжить навигацию
-    next();
 });
 
 

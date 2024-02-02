@@ -105,44 +105,51 @@ export default {
 </script>
 
 <template>
-    <div>
-
-        <div>
-            <label for="name">title</label>
-            <input type="text" name="title" v-model="title" id="title"   placeholder="Enter title">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div>
+                    <label for="title">Title</label>
+                    <input type="text" name="title" v-model="title" class="form-control" id="title" placeholder="Enter title">
+                </div>
+                <div class="mb-3">
+                    <label for="publication_year">Publication Year</label>
+                    <input type="text" name="publication_year" v-model="publication_year" class="form-control" id="publication_year" placeholder="Enter publication year">
+                </div>
+                <div class="mb-3">
+                    <label for="description">Description</label>
+                    <textarea type="text" name="description" v-model="description" class="form-control" id="description" placeholder="Enter description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="content">Content</label>
+                    <textarea type="text" name="content" v-model="content" class="form-control" id="content" placeholder="Enter content"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="cover_image">Picture URL</label>
+                    <input type="text" name="cover_image" v-model="cover_image" class="form-control" id="cover_image" placeholder="Enter picture URL">
+                </div>
+                <div class="mb-3">
+                    <label for="section_id">Section</label>
+                    <select class="form-select" aria-label="Select Section" v-model="section_id">
+                        <option v-for="section in sections" :key="section.id" :value="section.id">{{section.title}}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="author_id">Author</label>
+                    <select class="form-select" aria-label="Select Author" v-model="author_id">
+                        <option v-for="author in authors" :key="author.id" :value="author.id">{{author.full_name}}</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary" @click.prevent="addBook">
+                        Edit
+                    </button>
+                </div>
+            </div>
         </div>
-        <div>
-            <label for="name">publication year</label>
-            <input type="text" name="publication_year" v-model="publication_year" id="publication_year"
-                   placeholder="Enter publication year">
-        </div>
-        <div>
-            <label for="name">description</label>
-            <textarea type="text" name="description" v-model="description" id="description" placeholder="Enter description"></textarea>
-        </div>
-        <div>
-            <label for="name">comment</label>
-            <textarea type="text" name="content" v-model="content" id="content" placeholder="Enter content"></textarea>
-        </div>
-        <div>
-            <label for="name">picture Url</label>
-            <input type="text" name="cover_image" v-model="cover_image" id="cover_image"  placeholder="Enter picture Url">
-        </div>
-        <select class="form-select" aria-label="Выбор секции"  v-model="section_id">
-            <option v-for="section in this.sections" :key="section.id" :value="section.id">{{section.title}}</option>
-        </select>
-        <select class="form-select" aria-label="Выбор автора" v-model="author_id" >
-            <option v-for="author in this.authors" :key="author.id"  :value="author.id">{{author.full_name}}</option>
-        </select>
-        <div>
-            <button type="submit" @click.prevent="addBook">
-                Edit
-            </button>
-        </div>
-
-
     </div>
 </template>
+
 
 <style scoped>
 

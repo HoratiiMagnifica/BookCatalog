@@ -67,8 +67,8 @@ export default {
 
 <div>
     <div class="card-container">
-        <div v-for="book in books" :key="book.id" class="form" >
-            <div class="card">
+        <div v-for="book in books" :key="book.id" class="form">
+            <div class="card"  v-if="book.visible == 1" >
                 <img :src="book.coverUrl" class="card-img-top" alt="...">
                 <div class="card-body">
 
@@ -76,7 +76,7 @@ export default {
                     <router-link :to="{ name: 'book-details', params: { id: book.id }}" class="btn btn-primary">Читать</router-link>
                 </div>
             </div>
-            <div class="card-info">
+            <div class="card-info"  v-if="book.visible == 1" >
                 <h3 class="card-title"><b>{{ book.title }}</b></h3>
                 <h4><i>{{  book.author.full_name  }} - {{  book.publication_year  }}</i></h4>
                 <hr>

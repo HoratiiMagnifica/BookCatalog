@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('/sanctum/csrf-cookie', function (Request $request) {
+    return response()->json(['message' => 'CSRF cookie set']);
+});
 
 Route::get('/latest_books', [App\Http\Controllers\LatestBookController::class, 'latest']);
 Route::get('/sections/{section}/books', [\App\Http\Controllers\Sections\SectionBookController::class, 'booksBySections']);

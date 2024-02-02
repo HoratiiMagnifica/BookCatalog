@@ -23,18 +23,18 @@
                     <p>{{  author.comment  }}</p>
                     <hr style="margin-top: auto">
                 </div>
-                <button v-if="isAdmin && !isCheckingAdminStatus" @click="deleteAuthor(author.id)" class="btn btn-outline-danger">
+                <button v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" @click="deleteAuthor(author.id)" class="btn btn-outline-danger">
                     Удалить автора
                 </button>
-                <button v-if="isAdmin && !isCheckingAdminStatus" @click="toggleVisibility(author.id)" class="btn btn-outline-secondary">
+                <button v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" @click="toggleVisibility(author.id)" class="btn btn-outline-secondary">
                     {{ (author && author.visible !== undefined) ? (author.visible ? 'Скрыть' : 'Отобразить') : '' }}
                 </button>
-                <router-link v-if="isAdmin && !isCheckingAdminStatus" :to="{ name: 'AdminAuthorUpdate', params: { id: author.id}}" class="btn btn-outline-primary">
+                <router-link v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" :to="{ name: 'AdminAuthorUpdate', params: { id: author.id}}" class="btn btn-outline-primary">
                     Редактировать
                 </router-link>
 
             </div>
-            <router-link v-if="isAdmin && !isCheckingAdminStatus" :to="{ name: 'CreateAuthor'}" class="btn btn-outline-primary">
+            <router-link v-if="isAdmin && !isCheckingAdminStatus && this.isAuthenticated" :to="{ name: 'CreateAuthor'}" class="btn btn-outline-primary">
                 Добавить автора
             </router-link>
         </div>
@@ -53,6 +53,7 @@ export default {
             isAdmin: false,
             isCheckingAdminStatus: true,
             loading: false,
+            isAuthenticated: false,
         };
     },
     created() {
@@ -65,7 +66,7 @@ export default {
         },
         filteredAuthors() {
             // Используем loading для отслеживания состояния загрузки
-            return this.loading ? [] : (this.isAdmin ? this.authors : this.authors.filter(section => section.visible));
+            return this.loading ? [] : (this.isAdmin && this.isAuthenticated ? this.authors : this.authors.filter(section => section.visible));
         }
     },
     methods: {
@@ -121,6 +122,7 @@ export default {
 
                 // Предполагается, что в объекте userData есть поле is_admin
                 this.isAdmin = userData.is_admin === 1;
+                this.isAuthenticated = this.isAdmin;
             } catch (error) {
                 console.error('Ошибка при проверке статуса администратора:', error.message);
             } finally {

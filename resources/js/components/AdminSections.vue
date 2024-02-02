@@ -32,26 +32,23 @@ export default {
 </script>
 
 <template>
-    <div>
-
-        <div>
-            <label for="name">title</label>
-            <input type="text" name="title" v-model="title" id="title" placeholder="Enter title">
+    <div class="container mt-4">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" name="title" v-model="title" id="title" class="form-control" placeholder="Enter title">
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea type="text" name="description" v-model="description" id="description" class="form-control" placeholder="Enter description"></textarea>
         </div>
         <div>
-            <label for="name">description</label>
-            <textarea type="text" name="description" v-model="description" id="description"
-                   placeholder="Enter description"></textarea>
-        </div>
-        <div>
-            <button type="submit" @click.prevent="addSection">
-                Add section
+            <button type="submit" @click.prevent="addSection" class="btn btn-primary">
+                Add Section
             </button>
         </div>
-
-
     </div>
 </template>
+
 
 <style scoped>
 
